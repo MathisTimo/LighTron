@@ -11,7 +11,8 @@ public class Ball {
     private float size;
     private int directionX = 1;
     private int directionY = 1;
-    private Paint color = new Paint();
+
+    private int nbRebond = 0;
 
     public Ball(float _x, float _y, float _speed, float _size){
         x = _x;
@@ -21,7 +22,11 @@ public class Ball {
     }
 
     public void draw(Canvas canvas){
-        canvas.drawCircle(x,y,size,color);
+        canvas.drawCircle(x,y,size,new Paint());
+    }
+
+    public void addRebond(){
+        nbRebond += 1;
     }
 
     public void mooveX(){
@@ -44,9 +49,7 @@ public class Ball {
 
     public int getDirectionY() { return directionY; }
 
-    public Paint getColor() { return color; }
-
-    public void setColor(Paint color) { this.color = color; }
+    public int getNbRebond() { return nbRebond; }
 
     public void setDirectionX(int directionX) { this.directionX = directionX; }
 

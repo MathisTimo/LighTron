@@ -13,11 +13,14 @@ public class PlayerBar {
     private float width = 400;
     private float height = 100;
 
+    private int life;
+
     public PlayerBar(float _left,float _right,float _top, float _bottom){
         left = _left - (width/2);
         right = _right + (width/2);
         top = _top;
         bottom = _bottom;
+        life = 3;
     }
 
     public void draw(Canvas canvas){
@@ -36,6 +39,10 @@ public class PlayerBar {
     public float getWidth() { return width; }
 
     public float getTop() { return top; }
+
+    public int getLife() { return life; }
+
+    public void setLife(int life) { this.life = life; }
 
     public void setBottom(float bottom) { this.bottom = bottom; }
 

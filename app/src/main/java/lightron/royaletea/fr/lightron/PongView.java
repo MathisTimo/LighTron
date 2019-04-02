@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 
 public class PongView extends View {
@@ -50,18 +51,23 @@ public class PongView extends View {
 
         if(ball.getX() >= width-ball.getSize()){
             ball.setDirectionX(-1);
+            ball.addRebond();
         }
         if(ball.getX() <= ball.getSize() && ball.getX() < width-ball.getSize()){
             ball.setDirectionX(1);
+            ball.addRebond();
         }
         if(ball.getY() >= height-ball.getSize()){
             ball.setDirectionY(-1);
+            ball.addRebond();
         }
         if(ball.getY() <= ball.getSize() && ball.getY() < height-ball.getSize()){
             ball.setDirectionY(1);
+            ball.addRebond();
         }
         ball.mooveY();
         ball.mooveX();
+        Log.d("mylog",ball.getNbRebond()+"");
     }
 
     private void addColor(Context context){
@@ -69,17 +75,18 @@ public class PongView extends View {
         ballColor.setColor(ContextCompat.getColor(context, R.color.colorAccent));
         player2Color.setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
         player1.setColor(player1Color);
-        ball.setColor(ballColor);
         player2.setColor(player2Color);
     }
 
     private void bumpOnPlayer(){
         if(ball.getY() - ball.getSize() <= player1.getBottom() && ball.getX() - ball.getSize() >= player1.getLeft() && ball.getX() - ball.getSize() <= player1.getRight()){
             ball.setDirectionY(1);
+            ball.addRebond();
         }
 
         if(ball.getY() + ball.getSize()  >= player2.getTop() && ball.getX() - ball.getSize()  >= player2.getLeft() && ball.getX() - ball.getSize()  <= player2.getRight()){
             ball.setDirectionY(-1);
+            ball.addRebond();
         }
     }
 }

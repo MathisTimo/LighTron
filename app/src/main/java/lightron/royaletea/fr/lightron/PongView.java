@@ -1,4 +1,4 @@
-package fr.royaletea.lightron;
+package lightron.royaletea.fr.lightron;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,7 +8,7 @@ import android.view.View;
 
 public class PongView extends View {
 
-    private Ball ball;
+    private  Ball ball;
     private Paint ballColor = new Paint();
     public float width;
     public float height;

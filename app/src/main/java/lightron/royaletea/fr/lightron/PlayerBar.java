@@ -1,4 +1,4 @@
-package fr.royaletea.lightron;
+package lightron.royaletea.fr.lightron;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

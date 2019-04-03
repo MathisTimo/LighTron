@@ -15,6 +15,8 @@ public class Ball {
 
     private int nbRebond = 0;
 
+    private Animation destroyBallAnim;
+
     private Drawable color1;
     private Drawable color2;
     private Drawable color3;
@@ -29,6 +31,9 @@ public class Ball {
         color2 = context.getDrawable(R.drawable.balle2);
         color3 = context.getDrawable(R.drawable.balle3);
         color4 = context.getDrawable(R.drawable.balle4);
+
+        destroyBallAnim = new DestroyBall(this,context);
+
     }
 
     public void draw(Canvas canvas){
@@ -49,6 +54,10 @@ public class Ball {
             color4.draw(canvas);
         }
 
+    }
+
+    public void DestroyBallAnimation(Canvas canvas){
+        destroyBallAnim.startAnimation(canvas);
     }
 
     public void addRebond(){

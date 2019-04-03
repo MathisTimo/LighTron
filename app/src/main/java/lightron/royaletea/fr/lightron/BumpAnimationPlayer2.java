@@ -28,11 +28,11 @@ public class BumpAnimationPlayer2 implements Animation {
         myPlayer = player;
 
         left = new Particle((int)player.getLeft()+ (int)player.getWidth()/2-200,(int)player.getTop()-20,initialSize,image);
-        center = new Particle((int)player.getLeft()+(int)player.getWidth()/2-100,(int)player.getTop()-40,50,image);
-        right = new Particle((int)player.getLeft()+(int)player.getWidth()/2+50,(int)player.getTop()-30,50,image);
-        left2 = new Particle((int)player.getLeft()+ (int)player.getWidth()/2-150,(int)player.getTop()-20,50,image);
-        center2 = new Particle((int)player.getLeft()+(int)player.getWidth()/2,(int)player.getTop()-40,50,image);
-        right2 = new Particle((int)player.getLeft()+(int)player.getWidth()/2+100,(int)player.getTop()-30,50,image);
+        center = new Particle((int)player.getLeft()+(int)player.getWidth()/2-100,(int)player.getTop()-40,initialSize,image);
+        right = new Particle((int)player.getLeft()+(int)player.getWidth()/2+50,(int)player.getTop()-30,initialSize,image);
+        left2 = new Particle((int)player.getLeft()+ (int)player.getWidth()/2-150,(int)player.getTop()-20,initialSize,image);
+        center2 = new Particle((int)player.getLeft()+(int)player.getWidth()/2,(int)player.getTop()-40,initialSize,image);
+        right2 = new Particle((int)player.getLeft()+(int)player.getWidth()/2+100,(int)player.getTop()-30,initialSize,image);
     }
 
     @Override

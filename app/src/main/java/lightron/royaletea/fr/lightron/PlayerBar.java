@@ -20,9 +20,12 @@ public class PlayerBar {
     private Drawable image2;
     private Drawable image3;
 
+    private Animation animation;
+    private boolean playAnimation = false;
+
     private int life;
 
-    public PlayerBar(float _left, float _right, float _top, float _bottom, Context context){
+    public PlayerBar(float _left, float _right, float _top, float _bottom, Context context, int _animation){
         left = _left - (width/2);
         right = _right + (width/2);
         top = _top;
@@ -31,6 +34,12 @@ public class PlayerBar {
         image1 = context.getDrawable(R.drawable.barre);
         image2 = context.getDrawable(R.drawable.barrebreak1);
         image3 = context.getDrawable(R.drawable.barrebreak2);
+        if(_animation == 1){
+            animation = new BumpAnimationPlayer1(this,context);
+        }else{
+            animation = new BumpAnimationPlayer2(this,context);
+        }
+
     }
 
     public void draw(Canvas canvas){
@@ -48,6 +57,13 @@ public class PlayerBar {
         }
     }
 
+    public void bumpAnimation(Canvas canvas){
+        animation.startAnimation(canvas);
+    }
+    public void resetBumpAnimation(){
+        animation.stopAnimation();
+    }
+
     public float getBottom() { return bottom; }
 
     public float getLeft() { return left; }
@@ -62,6 +78,12 @@ public class PlayerBar {
 
     public int getLife() { return life; }
 
+    public boolean isPlayAnimation() { return playAnimation; }
+
+    public Animation getAnimation() {
+        return animation;
+    }
+
     public void setLife(int life) { this.life = life; }
 
     public void setBottom(float bottom) { this.bottom = bottom; }
@@ -74,6 +96,7 @@ public class PlayerBar {
 
     public void setColor(Paint color) { this.color = color; }
 
-
-
+    public void setPlayAnimation(boolean playAnimation) {
+        this.playAnimation = playAnimation;
+    }
 }

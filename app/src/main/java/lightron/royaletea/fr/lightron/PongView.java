@@ -4,18 +4,22 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.support.v4.content.ContextCompat;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
+
 public class PongView extends View {
 
     private  Ball ball;
-    private Paint ballColor = new Paint();
     public float width;
     public float height;
+
+    public Vibrator vibe;
 
     private PlayerBar player1;
     private PlayerBar player2;
@@ -28,9 +32,10 @@ public class PongView extends View {
         width = context.getResources().getDisplayMetrics().widthPixels;
         height = context.getResources().getDisplayMetrics().heightPixels;
         ball = new Ball(50,height/2,20,50,context);
-        player1 = new PlayerBar(width/2,width/2,40,150,context);
-        player2 = new PlayerBar(width/2,width/2,height-150,height-40,context);
+        player1 = new PlayerBar(width/2,width/2,40,150,context,1);
+        player2 = new PlayerBar(width/2,width/2,height-150,height-40,context,2);
         backGround =context.getDrawable(R.drawable.my_gradient_drawable);
+        vibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 
     }
 
@@ -93,6 +98,25 @@ public class PongView extends View {
         ball.draw(canvas);
         player1.draw(canvas);
         player2.draw(canvas);
+
+        if(player1.isPlayAnimation()){
+            if(player1.getAnimation().getTime() < player1.getAnimation().getTimeAnimation()){
+                player1.bumpAnimation(canvas);
+            }
+            if(player1.getAnimation().getTime() >= player1.getAnimation().getTimeAnimation()){
+                player1.setPlayAnimation(false);
+                player1.resetBumpAnimation();
+            }
+        }
+        if(player2.isPlayAnimation()){
+            if(player2.getAnimation().getTime() < player2.getAnimation().getTimeAnimation()){
+                player2.bumpAnimation(canvas);
+            }
+            if(player2.getAnimation().getTime() >= player2.getAnimation().getTimeAnimation()){
+                player2.setPlayAnimation(false);
+                player2.resetBumpAnimation();
+            }
+        }
         updateCoords();
     }
 
@@ -129,19 +153,18 @@ public class PongView extends View {
 
     }
 
-    private void moveBar(int x){
-        player1.setLeft(player1.getLeft()+10);
-        player1.setRight(player1.getRight()+10);
-    }
-
     private void bumpOnPlayer(){
         if(ball.getY() - ball.getSize() <= player1.getBottom() && ball.getX() - ball.getSize() >= player1.getLeft() && ball.getX() - ball.getSize() <= player1.getRight()){
             ball.setDirectionY(1);
+            player1.setPlayAnimation(true);
+            vibration();
             ball.addRebond();
         }
 
         if(ball.getY() + ball.getSize()  >= player2.getTop() && ball.getX() - ball.getSize()  >= player2.getLeft() && ball.getX() - ball.getSize()  <= player2.getRight()){
             ball.setDirectionY(-1);
+            player2.setPlayAnimation(true);
+            vibration();
             ball.addRebond();
         }
     }
@@ -153,6 +176,15 @@ public class PongView extends View {
             ball.setDirectionY(-1);
         }else{
             ball.setDirectionY(1);
+        }
+    }
+
+    private void vibration(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibe.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            //deprecated in API 26
+            vibe.vibrate(50);
         }
     }
 

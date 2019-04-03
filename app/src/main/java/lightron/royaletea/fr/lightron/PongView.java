@@ -104,7 +104,7 @@ public class PongView extends View {
 
     private void ballBump(){
 
-        // bumpOnPlayer();
+        bumpOnPlayer();
 
         if(ball.getX() >= width-ball.getSize()){
             ball.setDirectionX(-1);
@@ -115,12 +115,12 @@ public class PongView extends View {
             ball.addRebond();
         }
         if(ball.getY() >= height-ball.getSize()){
-            ball.setDirectionY(-1);
+            resetBall();
             player2.setLife(player2.getLife()-1);
             ball.addRebond();
         }
         if(ball.getY() <= ball.getSize() && ball.getY() < height-ball.getSize()){
-            ball.setDirectionY(1);
+            resetBall();
             player1.setLife(player1.getLife()-1);
             ball.addRebond();
         }
@@ -143,6 +143,16 @@ public class PongView extends View {
         if(ball.getY() + ball.getSize()  >= player2.getTop() && ball.getX() - ball.getSize()  >= player2.getLeft() && ball.getX() - ball.getSize()  <= player2.getRight()){
             ball.setDirectionY(-1);
             ball.addRebond();
+        }
+    }
+
+    private void resetBall(){
+        ball.setX(width/2);
+        ball.setY(height/2);
+        if (ball.getDirectionY() == 1){
+            ball.setDirectionY(-1);
+        }else{
+            ball.setDirectionY(1);
         }
     }
 

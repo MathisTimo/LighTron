@@ -1,9 +1,12 @@
 package lightron.royaletea.fr.lightron;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 public class PongView extends View {
@@ -19,6 +22,7 @@ public class PongView extends View {
     private Paint player2Color = new Paint();
 
 
+    @SuppressLint("ClickableViewAccessibility")
     public PongView(Context context) {
         super(context);
         width = context.getResources().getDisplayMetrics().widthPixels;
@@ -27,6 +31,60 @@ public class PongView extends View {
         player1 = new PlayerBar(width/2+100,width/2+100,40,150);
         player2 = new PlayerBar(width/2,width/2,height-150,height-40);
         addColor(context);
+
+
+
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        // TODO Auto-generated method stub
+
+        event.getActionIndex();
+        if (event.getY() < height/2){
+            switch(event.getAction()){
+
+                case MotionEvent.ACTION_POINTER_DOWN:
+                    if (event.getActionIndex() == 0){
+                        Log.d("mylog","JOUEUR 1");
+                    player1.setLeft(event.getX());
+                    player1.setRight(player1.getLeft()+player1.getWidth());
+                    // y = event.getY();
+                    }
+                    invalidate();
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                   // x = event.getX();
+
+                    player1.setLeft(event.getX());
+                    player1.setRight(player1.getLeft()+player1.getWidth());
+                   // y = event.getY();
+                    invalidate();
+                    break;
+            }
+        } else{
+            switch(event.getAction()){
+                case MotionEvent.ACTION_POINTER_DOWN:
+                    if (event.getActionIndex() == 1) {
+                        Log.d("mylog","JOUEUR 1");
+                        player2.setLeft(event.getX());
+                        player2.setRight(player2.getLeft() + player2.getWidth());
+                        // y = event.getY();
+                    }
+                    invalidate();
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    // x = event.getX();
+
+                    player2.setLeft(event.getX());
+                    player2.setRight(player2.getLeft()+player2.getWidth());
+                    // y = event.getY();
+                    invalidate();
+                    break;
+            }
+
+        }
+        return true;
     }
 
     @Override
@@ -73,6 +131,11 @@ public class PongView extends View {
         player2.setColor(player2Color);
     }
 
+    private void moveBar(int x){
+        player1.setLeft(player1.getLeft()+10);
+        player1.setRight(player1.getRight()+10);
+    }
+
     private void bumpOnPlayer(){
         if(ball.getY() - ball.getSize() <= player1.getBottom() && ball.getX() - ball.getSize() >= player1.getLeft() && ball.getX() - ball.getSize() <= player1.getRight()){
             ball.setDirectionY(1);
@@ -82,4 +145,5 @@ public class PongView extends View {
             ball.setDirectionY(-1);
         }
     }
+
 }

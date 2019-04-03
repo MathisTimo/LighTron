@@ -1,7 +1,8 @@
 package lightron.royaletea.fr.lightron;
 
+import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 
 public class Ball {
 
@@ -14,15 +15,40 @@ public class Ball {
 
     private int nbRebond = 0;
 
-    public Ball(float _x, float _y, float _speed, float _size){
+    private Drawable color1;
+    private Drawable color2;
+    private Drawable color3;
+    private Drawable color4;
+
+    public Ball(float _x, float _y, float _speed, float _size, Context context){
         x = _x;
         y = _y;
         speed = _speed;
         size = _size;
+        color1 = context.getDrawable(R.drawable.balle);
+        color2 = context.getDrawable(R.drawable.balle2);
+        color3 = context.getDrawable(R.drawable.balle3);
+        color4 = context.getDrawable(R.drawable.balle4);
     }
 
     public void draw(Canvas canvas){
-        canvas.drawCircle(x,y,size,new Paint());
+        if (nbRebond <10){
+            color1.setBounds((int)x, (int)y, (int)x+100, (int)y+100);
+            color1.draw(canvas);
+        }
+        if(nbRebond >=10 && nbRebond <20){
+            color2.setBounds((int)x, (int)y, (int)x+100, (int)y+100);
+            color2.draw(canvas);
+        }
+        if(nbRebond >=20 && nbRebond < 30){
+            color3.setBounds((int)x, (int)y, (int)x+100, (int)y+100);
+            color3.draw(canvas);
+        }
+        if(nbRebond >=30){
+            color4.setBounds((int)x, (int)y, (int)x+100, (int)y+100);
+            color4.draw(canvas);
+        }
+
     }
 
     public void addRebond(){

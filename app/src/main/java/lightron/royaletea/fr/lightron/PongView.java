@@ -3,7 +3,6 @@ package lightron.royaletea.fr.lightron;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -158,6 +157,7 @@ public class PongView extends View {
             ball.setDirectionY(1);
             player1.setPlayAnimation(true);
             vibration();
+            player1.getBumpSound().start();
             ball.addRebond();
         }
 
@@ -165,6 +165,7 @@ public class PongView extends View {
             ball.setDirectionY(-1);
             player2.setPlayAnimation(true);
             vibration();
+            player2.getBumpSound().start();
             ball.addRebond();
         }
     }

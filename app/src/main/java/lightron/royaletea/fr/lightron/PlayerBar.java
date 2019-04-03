@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
-import android.view.View;
+import android.media.MediaPlayer;
 
 public class PlayerBar {
 
@@ -15,6 +15,8 @@ public class PlayerBar {
     private Paint color = new Paint();
     private float width = 400;
     private float height = 100;
+
+    private MediaPlayer bumpSound;
 
     private Drawable image1;
     private Drawable image2;
@@ -39,6 +41,8 @@ public class PlayerBar {
         }else{
             animation = new BumpAnimationPlayer2(this,context);
         }
+
+        bumpSound = MediaPlayer.create(context,R.raw.ting);
 
     }
 
@@ -82,6 +86,10 @@ public class PlayerBar {
 
     public Animation getAnimation() {
         return animation;
+    }
+
+    public MediaPlayer getBumpSound() {
+        return bumpSound;
     }
 
     public void setLife(int life) { this.life = life; }

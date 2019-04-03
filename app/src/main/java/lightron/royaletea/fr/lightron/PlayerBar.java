@@ -2,6 +2,7 @@ package lightron.royaletea.fr.lightron;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.view.MotionEvent;
 
 public class PlayerBar {
 
@@ -46,4 +47,7 @@ public class PlayerBar {
     public void setTop(float top) { this.top = top; }
 
     public void setColor(Paint color) { this.color = color; }
+
+
+
 }

@@ -14,6 +14,8 @@ public class BumpAnimationPlayer2 implements Animation {
     private Particle center2;
     private Particle right2;
 
+    private Particle[] particles;
+
     private int initialSize = 50;
     private int removedSize = 3;
     private int time = 0;
@@ -33,6 +35,8 @@ public class BumpAnimationPlayer2 implements Animation {
         left2 = new Particle((int)player.getLeft()+ (int)player.getWidth()/2-150,(int)player.getTop()-20,initialSize,image);
         center2 = new Particle((int)player.getLeft()+(int)player.getWidth()/2,(int)player.getTop()-40,initialSize,image);
         right2 = new Particle((int)player.getLeft()+(int)player.getWidth()/2+100,(int)player.getTop()-30,initialSize,image);
+
+        particles = new Particle[]{left,left2,center,center2,right,right2};
     }
 
     @Override
@@ -91,35 +95,21 @@ public class BumpAnimationPlayer2 implements Animation {
     }
 
     private void resetSize(){
-
-        left.changeSize(initialSize);
-        left2.changeSize(initialSize);
-
-        center.changeSize(initialSize);
-        center2.changeSize(initialSize);
-
-        right.changeSize(initialSize);
-        right2.changeSize(initialSize);
+        for(Particle particle : particles){
+            particle.changeSize(initialSize);
+        }
     }
 
     private void changeSizeParticle(){
-        left.changeSize(left.getWidth() -removedSize);
-        left2.changeSize(left2.getWidth() -removedSize);
-
-        center.changeSize(center.getWidth() -removedSize);
-        center2.changeSize(center2.getWidth() -removedSize);
-
-        right.changeSize(right.getWidth() -removedSize);
-        right2.changeSize(right2.getWidth() -removedSize);
+        for(Particle particle : particles){
+            particle.changeSize(particle.getWidth() - removedSize);
+        }
     }
 
     private void drawAllparticle(Canvas canvas){
-        left.draw(canvas);
-        center.draw(canvas);
-        right.draw(canvas);
-        left2.draw(canvas);
-        center2.draw(canvas);
-        right2.draw(canvas);
+        for(Particle particle : particles){
+            particle.draw(canvas);
+        }
     }
 
     private void changePositionX(){

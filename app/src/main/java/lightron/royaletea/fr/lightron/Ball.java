@@ -9,51 +9,54 @@ public class Ball {
     private float x;
     private float y;
     private float speed;
-    private float size;
+    private int size;
     private int directionX = 1;
     private int directionY = 1;
 
     private int nbRebond = 0;
 
+    private int shadowNb = 0;
+
     private Animation destroyBallAnim;
 
-    private Drawable color1;
-    private Drawable color2;
-    private Drawable color3;
-    private Drawable color4;
+    private boolean playAnimation = false;
 
-    public Ball(float _x, float _y, float _speed, float _size, Context context){
+    private Drawable myBall;
+
+    private Shadow shadow;
+
+    private Drawable image1;
+    private Drawable image2;
+    private Drawable image3;
+
+
+    public Ball(float _x, float _y, float _speed, int _size, Context context){
         x = _x;
         y = _y;
         speed = _speed;
         size = _size;
-        color1 = context.getDrawable(R.drawable.balle);
-        color2 = context.getDrawable(R.drawable.balle2);
-        color3 = context.getDrawable(R.drawable.balle3);
-        color4 = context.getDrawable(R.drawable.balle4);
+        myBall = context.getDrawable(R.drawable.balle);
 
         destroyBallAnim = new DestroyBall(this,context);
+
+        shadow = new Shadow(size,context);
+        image1 = context.getDrawable(R.drawable.shadow);
+        image1.setAlpha(80);
+
+        image2 = context.getDrawable(R.drawable.shadow);
+        image2.setAlpha(70);
+
+        image3 = context.getDrawable(R.drawable.shadow);
+        image3.setAlpha(60);
 
     }
 
     public void draw(Canvas canvas){
-        if (nbRebond <10){
-            color1.setBounds((int)x, (int)y, (int)x+100, (int)y+100);
-            color1.draw(canvas);
-        }
-        if(nbRebond >=10 && nbRebond <20){
-            color2.setBounds((int)x, (int)y, (int)x+100, (int)y+100);
-            color2.draw(canvas);
-        }
-        if(nbRebond >=20 && nbRebond < 30){
-            color3.setBounds((int)x, (int)y, (int)x+100, (int)y+100);
-            color3.draw(canvas);
-        }
-        if(nbRebond >=30){
-            color4.setBounds((int)x, (int)y, (int)x+100, (int)y+100);
-            color4.draw(canvas);
-        }
+        shadow.draw(this,canvas);
 
+        myBall.setBounds((int)x, (int)y, (int)x+size, (int)y+size);
+
+        myBall.draw(canvas);
     }
 
     public void DestroyBallAnimation(Canvas canvas){
@@ -72,7 +75,7 @@ public class Ball {
         y += speed*directionY;
     }
 
-    public float getSize() { return size; }
+    public int getSize() { return size; }
 
     public float getSpeed() { return speed; }
 
@@ -86,15 +89,27 @@ public class Ball {
 
     public int getNbRebond() { return nbRebond; }
 
+    public boolean isPlayAnimation() {
+        return playAnimation;
+    }
+
+    public Animation getDestroyBallAnim() {
+        return destroyBallAnim;
+    }
+
     public void setDirectionX(int directionX) { this.directionX = directionX; }
 
     public void setDirectionY(int directionY) { this.directionY = directionY; }
 
-    public void setSize(float size) { this.size = size; }
+    public void setSize(int size) { this.size = size; }
 
     public void setSpeed(float speed) { this.speed = speed; }
 
     public void setX(float x) { this.x = x; }
 
     public void setY(float y) { this.y = y;}
+
+    public void setPlayAnimation(boolean playAnimation) {
+        this.playAnimation = playAnimation;
+    }
 }

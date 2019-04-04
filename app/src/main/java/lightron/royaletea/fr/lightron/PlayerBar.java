@@ -21,51 +21,60 @@ public class PlayerBar {
     private Drawable image1;
     private Drawable image2;
     private Drawable image3;
+    private Drawable image4;
 
     private Animation animation;
     private boolean playAnimation = false;
 
-    private int life;
+    private int life = 4;
 
     public PlayerBar(float _left, float _right, float _top, float _bottom, Context context, int _animation){
         left = _left - (width/2);
         right = _right + (width/2);
         top = _top;
         bottom = _bottom;
-        life = 3;
-        image1 = context.getDrawable(R.drawable.barre);
-        image2 = context.getDrawable(R.drawable.barrebreak1);
-        image3 = context.getDrawable(R.drawable.barrebreak2);
+        if(_animation == 2){
+            image1 = context.getDrawable(R.drawable.barre);
+            image2 = context.getDrawable(R.drawable.barrebreak1);
+            image3 = context.getDrawable(R.drawable.barrebreak2);
+            image4 = context.getDrawable(R.drawable.barrebreak3);
+        }else{
+            image1 = context.getDrawable(R.drawable.barre);
+            image2 = context.getDrawable(R.drawable.barrebreak1p1);
+            image3 = context.getDrawable(R.drawable.barrebreak2p1);
+            image4 = context.getDrawable(R.drawable.barrebreak3p1);
+        }
         if(_animation == 1){
             animation = new BumpAnimationPlayer1(this,context);
         }else{
             animation = new BumpAnimationPlayer2(this,context);
         }
 
-        bumpSound = MediaPlayer.create(context,R.raw.ting);
+        bumpSound = MediaPlayer.create(context,R.raw.bumpbarre);
 
     }
 
     public void draw(Canvas canvas){
-        if (life == 3){
+        if (life == 4){
             image1.setBounds((int)left, (int)top, (int)right, (int)bottom);
             image1.draw(canvas);
         }
-        if(life == 2){
+        if(life == 3){
             image2.setBounds((int)left, (int)top, (int)right, (int)bottom);
             image2.draw(canvas);
         }
-        if(life <= 1){
+        if(life == 2){
             image3.setBounds((int)left, (int)top, (int)right, (int)bottom);
             image3.draw(canvas);
+        }
+        if(life <= 1){
+            image4.setBounds((int)left, (int)top, (int)right, (int)bottom);
+            image4.draw(canvas);
         }
     }
 
     public void bumpAnimation(Canvas canvas){
         animation.startAnimation(canvas);
-    }
-    public void resetBumpAnimation(){
-        animation.stopAnimation();
     }
 
     public float getBottom() { return bottom; }

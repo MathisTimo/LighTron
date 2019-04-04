@@ -23,6 +23,10 @@ public class LaunchScreen extends View {
         this.image = context.getDrawable(R.drawable.logo1);
         this.background = context.getDrawable(R.drawable.bg);
         this.play = context.getDrawable(R.drawable.play);
+        background.setBounds(0,0, (int)width, (int)(height*1.1));
+
+        image.setBounds(((int)width/2)-400,0,((int)width/2)+400,400);
+        play.setBounds(((int)width/2)-400,((int)height/2)-200,((int)width/2)+400,((int)height/2)+200);
 
 
 
@@ -34,10 +38,6 @@ public class LaunchScreen extends View {
     @Override
     protected void onDraw(Canvas canvas){
         super.onDraw(canvas);
-        background.setBounds(0,0, (int)width, (int)(height*1.1));
-        image.setBounds(((int)width/2)-400,0,((int)width/2)+400,400);
-        play.setBounds(((int)width/2)-400,((int)height/2)-200,((int)width/2)+400,((int)height/2)+200);
-
         background.draw(canvas);
         image.draw(canvas);
         play.draw(canvas);

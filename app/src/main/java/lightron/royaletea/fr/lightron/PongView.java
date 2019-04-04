@@ -1,25 +1,17 @@
 package lightron.royaletea.fr.lightron;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.support.v4.content.ContextCompat;
 import android.telephony.SmsManager;
-import android.util.Log;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.MotionEvent;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-
-import java.util.Timer;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 
 public class PongView extends View {
@@ -38,6 +30,7 @@ public class PongView extends View {
     private Lettre lettre2;
     private Lettre lettre3;
     private Lettre lettreGO;
+    private boolean startGameAnimationIsFinish = false;
 
     private Drawable backGround;
 
@@ -46,7 +39,7 @@ public class PongView extends View {
         super(context);
         width = context.getResources().getDisplayMetrics().widthPixels;
         height = context.getResources().getDisplayMetrics().heightPixels;
-        ball = new Ball(50,height/2,20,100,context);
+        ball = new Ball(width/2,height/2,20,100,context);
         player1 = new PlayerBar(width/2,width/2,40,150,context,1);
         player2 = new PlayerBar(width/2,width/2,height-150,height-40,context,2);
         backGround =context.getDrawable(R.drawable.my_gradient_drawable);
@@ -99,30 +92,22 @@ public class PongView extends View {
         super.onDraw(canvas);
 
         backGround.draw(canvas);
+
         ball.draw(canvas);
         player1.draw(canvas);
         player2.draw(canvas);
+        startGameAnimation(canvas);
         drawAnimations(canvas);
 
-        lettre3.getAnimation().startAnimation(canvas);
-        if(lettre3.getAnimation().getTime() >= lettre3.getAnimation().getTimeAnimation()){
-            lettre2.getAnimation().startAnimation(canvas);
+        if(startGameAnimationIsFinish){
+            updateCoords();
         }
-        if(lettre2.getAnimation().getTime() >= lettre2.getAnimation().getTimeAnimation()){
-            lettre1.getAnimation().startAnimation(canvas);
-        }
-        if(lettre1.getAnimation().getTime() >= lettre1.getAnimation().getTimeAnimation()){
-            lettreGO.getAnimation().startAnimation(canvas);
-        }
-
-
-        updateCoords();
+        invalidate();
     }
 
 
     private void updateCoords(){
         ballBump();
-        invalidate();
     }
 
     private void ballBump(){
@@ -189,7 +174,7 @@ public class PongView extends View {
                         ball.setSpeed(20);
                     }
                 },
-                2000
+                700
         );
     }
 
@@ -200,28 +185,6 @@ public class PongView extends View {
                 ball.setX((width - ball.getSize()) /2);
                 ball.setY((height/2)-ball.getSize());
                 ball.setSpeed(0);
-                AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
-                alertDialog.setTitle("PLAYER 2 WIN");
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "PLAY AGAIN !",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                player1.setLife(3);
-                                player2.setLife(3);
-                                ball.setX(((width-ball.getSize())/2));
-                                ball.setY((height/2)-ball.getSize());
-                                new java.util.Timer().schedule(
-                                        new java.util.TimerTask() {
-                                            @Override
-                                            public void run() {
-                                               ball.setSpeed(20);
-                                            }
-                                        },
-                                        5000
-                                );
-
-                            }
-                        });
-                alertDialog.show();
             }
             if (player1.getLife() < 1) {
                 if(!sendSMS) {
@@ -287,6 +250,24 @@ public class PongView extends View {
                 ball.getDestroyBallAnim().stopAnimation();
             }
         }
+    }
+
+    private void startGameAnimation(Canvas canvas){
+
+        lettre3.getAnimation().startAnimation(canvas);
+        if(lettre3.getAnimation().getTime() >= lettre3.getAnimation().getTimeAnimation()){
+            lettre2.getAnimation().startAnimation(canvas);
+        }
+        if(lettre2.getAnimation().getTime() >= lettre2.getAnimation().getTimeAnimation()){
+            lettre1.getAnimation().startAnimation(canvas);
+        }
+        if(lettre1.getAnimation().getTime() >= lettre1.getAnimation().getTimeAnimation()){
+            lettreGO.getAnimation().startAnimation(canvas);
+        }
+        if(lettreGO.getAnimation().getTime() >= lettreGO.getAnimation().getTimeAnimation()){
+            startGameAnimationIsFinish = true;
+        }
+
     }
 
 }

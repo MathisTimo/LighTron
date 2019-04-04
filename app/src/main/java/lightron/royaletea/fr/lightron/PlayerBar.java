@@ -29,25 +29,25 @@ public class PlayerBar {
     private int life = 4;
 
     public PlayerBar(float _left, float _right, float _top, float _bottom, Context context, int _animation){
+
         left = _left - (width/2);
         right = _right + (width/2);
         top = _top;
         bottom = _bottom;
-        if(_animation == 2){
-            image1 = context.getDrawable(R.drawable.barre);
-            image2 = context.getDrawable(R.drawable.barrebreak1);
-            image3 = context.getDrawable(R.drawable.barrebreak2);
-            image4 = context.getDrawable(R.drawable.barrebreak3);
-        }else{
+        if(_animation == 1){
+            animation = new BumpAnimationPlayer1(this,context);
+
             image1 = context.getDrawable(R.drawable.barre);
             image2 = context.getDrawable(R.drawable.barrebreak1p1);
             image3 = context.getDrawable(R.drawable.barrebreak2p1);
             image4 = context.getDrawable(R.drawable.barrebreak3p1);
-        }
-        if(_animation == 1){
-            animation = new BumpAnimationPlayer1(this,context);
         }else{
             animation = new BumpAnimationPlayer2(this,context);
+
+            image1 = context.getDrawable(R.drawable.barre);
+            image2 = context.getDrawable(R.drawable.barrebreak1);
+            image3 = context.getDrawable(R.drawable.barrebreak2);
+            image4 = context.getDrawable(R.drawable.barrebreak3);
         }
 
         bumpSound = MediaPlayer.create(context,R.raw.bumpbarre);

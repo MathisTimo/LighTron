@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import com.google.android.gms.ads.MobileAds;
 import android.widget.ImageView;
 
 
@@ -26,10 +27,7 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
-
-
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
     }
 
     @Override

@@ -192,8 +192,6 @@ public class PongView extends View {
         if (gameIsFinished()) {
             if (mInterstitialAd.isLoaded()) {
                 mInterstitialAd.show();
-            } else {
-                Log.d("TAG", "The interstitial wasn't loaded yet.");
             }
             if (!sendSMS){
                 ball.setX((width - ball.getSize()) /2);

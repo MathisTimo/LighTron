@@ -22,7 +22,7 @@ public class LettreAnimation implements Animation {
         if(myLettre.getSize() >0){
             myLettre.setSize(myLettre.getSize() - sizeRemove);
             myLettre.draw(canvas);
-            sizeRemove+= 2;
+            sizeRemove+= 3;
         }
         time++;
     }
@@ -30,6 +30,8 @@ public class LettreAnimation implements Animation {
     @Override
     public void stopAnimation() {
         myLettre.setSize(initialSize);
+        sizeRemove = 1;
+        time = 0;
     }
 
     @Override

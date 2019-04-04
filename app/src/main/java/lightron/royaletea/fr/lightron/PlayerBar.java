@@ -50,7 +50,7 @@ public class PlayerBar {
             image4 = context.getDrawable(R.drawable.barrebreak3);
         }
 
-        bumpSound = MediaPlayer.create(context,R.raw.bumpbarre);
+        bumpSound = MediaPlayer.create(context,R.raw.pong);
 
     }
 

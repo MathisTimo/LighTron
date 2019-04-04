@@ -1,6 +1,12 @@
 package lightron.royaletea.fr.lightron;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,24 +16,30 @@ import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ImageView launchscreen;
+    private LaunchScreen launchscreen;
+    private View mainView;
+    private Drawable ball;
+    private int width;
+    private int height;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        this.launchscreen = (ImageView) findViewById(R.id.launchImage);
-        this.launchscreen.setOnClickListener(new View.OnClickListener() {
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
+        LaunchScreen launchScreen = new LaunchScreen(this);
+        setContentView(launchScreen);
+        launchScreen.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Intent otherActivity = new Intent(getApplicationContext(), PongActivity.class);
                 startActivity(otherActivity);
                 finish();
             }
-        });
-        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
+        });;
+
+
     }
 
     @Override
@@ -45,7 +57,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    }
+
+
+
+}
 
 
 

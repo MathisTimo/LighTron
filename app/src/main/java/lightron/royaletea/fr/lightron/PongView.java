@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.media.MediaPlayer;
-import android.telephony.SmsManager;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -69,10 +68,10 @@ public class PongView extends View {
         restartButton.setBounds((int)width/2-buttonWidth/2,(int)height/2-buttonHeight/2,(int)width/2+buttonWidth/2,(int)height/2+buttonHeight/2);
 
         startSound = MediaPlayer.create(context,R.raw.start321);
-        startSound.setVolume(0.3f,0.3f);
+        startSound.setVolume(0.2f,0.2f);
         gameSound = MediaPlayer.create(context,R.raw.musicgame);
         gameSound.setLooping(true);
-        gameSound.setVolume(0.1f,0.1f);
+        gameSound.setVolume(0.2f,0.2f);
         gameSound.start();
 
 
@@ -243,14 +242,6 @@ public class PongView extends View {
             }
         }
     }
-
-    private void sendSMS(String phoneNumber, String message)
-    {
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(phoneNumber,null, message, null, null);
-
-    }
-
     private boolean gameIsFinished(){
         return player1.getLife() < 1 || player2.getLife() < 1;
     }

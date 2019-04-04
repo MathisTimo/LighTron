@@ -21,7 +21,7 @@ public class LaunchScreen extends View {
         width = context.getResources().getDisplayMetrics().widthPixels;
         height = context.getResources().getDisplayMetrics().heightPixels;
         this.image = context.getDrawable(R.drawable.logo1);
-        this.background = context.getDrawable(R.drawable.my_gradient_drawable);
+        this.background = context.getDrawable(R.drawable.backgroundmenu);
         this.play = context.getDrawable(R.drawable.play);
 
 

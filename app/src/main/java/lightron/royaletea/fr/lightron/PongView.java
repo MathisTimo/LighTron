@@ -36,6 +36,7 @@ public class PongView extends View {
 
     private MediaPlayer startSound;
     private boolean playstartSound = true;
+    private MediaPlayer gameSound;
 
     private Drawable restartButton;
 
@@ -68,6 +69,11 @@ public class PongView extends View {
         restartButton.setBounds((int)width/2-buttonWidth/2,(int)height/2-buttonHeight/2,(int)width/2+buttonWidth/2,(int)height/2+buttonHeight/2);
 
         startSound = MediaPlayer.create(context,R.raw.start321);
+        startSound.setVolume(0.3f,0.3f);
+        gameSound = MediaPlayer.create(context,R.raw.musicgame);
+        gameSound.setLooping(true);
+        gameSound.setVolume(0.1f,0.1f);
+        gameSound.start();
 
 
 

@@ -2,24 +2,16 @@ package lightron.royaletea.fr.lightron;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.support.v4.content.ContextCompat;
 import android.telephony.SmsManager;
-import android.util.Log;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.MotionEvent;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-
-import java.util.Timer;
 
 
 public class PongView extends View {
@@ -50,7 +42,7 @@ public class PongView extends View {
         player1 = new PlayerBar(width/2,width/2,40,150,context,1);
         player2 = new PlayerBar(width/2,width/2,height-150,height-40,context,2);
         backGround =context.getDrawable(R.drawable.my_gradient_drawable);
-        backGround.setBounds((int)0, (int)0, (int)width, (int)(height*1.1));
+        backGround.setBounds(0, 0, (int)width, (int)(height*1.1));
         vibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         lettre1 = new Lettre(context.getDrawable(R.drawable.lettre1),(int)width/2,(int)height/2,500);
         lettre2 = new Lettre(context.getDrawable(R.drawable.lettre2),(int)width/2,(int)height/2,500);
@@ -205,8 +197,8 @@ public class PongView extends View {
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "PLAY AGAIN !",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                player1.setLife(3);
-                                player2.setLife(3);
+                                player1.setLife(4);
+                                player2.setLife(4);
                                 ball.setX(((width-ball.getSize())/2));
                                 ball.setY((height/2)-ball.getSize());
                                 new java.util.Timer().schedule(

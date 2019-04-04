@@ -1,35 +1,20 @@
 package lightron.royaletea.fr.lightron;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 
+public class PongActivity extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity {
-
-    private ImageView launchscreen;
-
+    private PongView myPongView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        this.launchscreen = (ImageView) findViewById(R.id.launchImage);
-        this.launchscreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent otherActivity = new Intent(getApplicationContext(), PongActivity.class);
-                startActivity(otherActivity);
-                finish();
-            }
-        });
-
-
-
-
+        setContentView(R.layout.activity_pong);
+        myPongView = new PongView(this);
+        setContentView(myPongView);
     }
 
     @Override
@@ -45,10 +30,4 @@ public class MainActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
-
-
-    }
-
-
-
-
+}

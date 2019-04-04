@@ -1,14 +1,25 @@
 package lightron.royaletea.fr.lightron;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.support.v4.content.ContextCompat;
+import android.telephony.SmsManager;
+import android.util.Log;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.MotionEvent;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+
+import java.util.Timer;
 
 
 public class PongView extends View {
@@ -21,6 +32,7 @@ public class PongView extends View {
 
     private PlayerBar player1;
     private PlayerBar player2;
+    private boolean sendSMS = false;
 
     private Lettre lettre1;
     private Lettre lettre2;
@@ -139,6 +151,7 @@ public class PongView extends View {
         }
         ball.mooveY();
         ball.mooveX();
+        endGame();
 
     }
 
@@ -161,6 +174,7 @@ public class PongView extends View {
     }
 
     private void resetBall(){
+        ball.setSpeed(0);
         ball.setX(width/2);
         ball.setY(height/2);
         if (ball.getDirectionY() == 1){
@@ -168,7 +182,76 @@ public class PongView extends View {
         }else{
             ball.setDirectionY(1);
         }
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        ball.setSpeed(20);
+                    }
+                },
+                2000
+        );
     }
+
+
+    private void endGame() {
+        if (gameIsFinished()) {
+            if (!sendSMS){
+                ball.setX((width - ball.getSize()) /2);
+                ball.setY((height/2)-ball.getSize());
+                ball.setSpeed(0);
+                AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                alertDialog.setTitle("PLAYER 2 WIN");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "PLAY AGAIN !",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                player1.setLife(3);
+                                player2.setLife(3);
+                                ball.setX(((width-ball.getSize())/2));
+                                ball.setY((height/2)-ball.getSize());
+                                new java.util.Timer().schedule(
+                                        new java.util.TimerTask() {
+                                            @Override
+                                            public void run() {
+                                               ball.setSpeed(20);
+                                            }
+                                        },
+                                        5000
+                                );
+
+                            }
+                        });
+                alertDialog.show();
+            }
+            if (player1.getLife() < 1) {
+                if(!sendSMS) {
+                    sendSMS = true;
+                    //   sendSMS("0783290095", "Le joueur 2 a gagné");
+                }
+            }
+            if (player2.getLife() < 1) {
+
+                if(!sendSMS) {
+                    sendSMS = true;
+                    //  sendSMS("0783290095", "Le joueur 1 a gagné");
+                }
+            }
+        }
+    }
+
+    private void sendSMS(String phoneNumber, String message)
+    {
+        SmsManager sms = SmsManager.getDefault();
+        sms.sendTextMessage(phoneNumber,null, message, null, null);
+
+    }
+
+    private boolean gameIsFinished(){
+
+        return player1.getLife() < 1 || player2.getLife() < 1;
+    }
+
+
 
     private void vibration(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

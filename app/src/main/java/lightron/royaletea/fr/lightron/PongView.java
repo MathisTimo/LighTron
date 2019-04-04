@@ -67,8 +67,8 @@ public class PongView extends View {
 
         restartButton.setBounds((int)width/2-buttonWidth/2,(int)height/2-buttonHeight/2,(int)width/2+buttonWidth/2,(int)height/2+buttonHeight/2);
 
-        startSound = MediaPlayer.create(context,R.raw.start321);
-        startSound.setVolume(0.2f,0.2f);
+        startSound = MediaPlayer.create(context,R.raw.fritououhanego);
+        startSound.setVolume(0.8f,0.8f);
         gameSound = MediaPlayer.create(context,R.raw.musicgame);
         gameSound.setLooping(true);
         gameSound.setVolume(0.2f,0.2f);
@@ -285,12 +285,11 @@ public class PongView extends View {
     }
 
     private void startGameAnimation(Canvas canvas){
+        lettre3.getAnimation().startAnimation(canvas);
         if(playstartSound){
             startSound.start();
             playstartSound = false;
         }
-
-        lettre3.getAnimation().startAnimation(canvas);
         if(lettre3.getAnimation().getTime() >= lettre3.getAnimation().getTimeAnimation()){
             lettre2.getAnimation().startAnimation(canvas);
         }

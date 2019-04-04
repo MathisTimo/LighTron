@@ -18,6 +18,8 @@ import android.os.Vibrator;
 import android.view.MotionEvent;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 import java.util.Timer;
 
@@ -38,7 +40,7 @@ public class PongView extends View {
     private Lettre lettre2;
     private Lettre lettre3;
     private Lettre lettreGO;
-
+    private InterstitialAd mInterstitialAd;
     private Drawable backGround;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -56,6 +58,9 @@ public class PongView extends View {
         lettre2 = new Lettre(context.getDrawable(R.drawable.lettre2),(int)width/2,(int)height/2,500);
         lettre3 = new Lettre(context.getDrawable(R.drawable.lettre3),(int)width/2,(int)height/2,500);
         lettreGO = new Lettre(context.getDrawable(R.drawable.go),(int)width/2,(int)height/2,800);
+        mInterstitialAd = new InterstitialAd(context);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
     }
 
@@ -196,6 +201,11 @@ public class PongView extends View {
 
     private void endGame() {
         if (gameIsFinished()) {
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+            } else {
+                Log.d("TAG", "The interstitial wasn't loaded yet.");
+            }
             if (!sendSMS){
                 ball.setX((width - ball.getSize()) /2);
                 ball.setY((height/2)-ball.getSize());

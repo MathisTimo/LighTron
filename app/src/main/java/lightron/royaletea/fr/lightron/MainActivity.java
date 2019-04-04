@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
+import com.google.android.gms.ads.MobileAds;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         myPongView = new PongView(this);
         setContentView(myPongView);
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
 
     }
 

@@ -1,13 +1,9 @@
 package lightron.royaletea.fr.lightron;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Canvas;
+import android.media.MediaPlayer;
 import android.telephony.SmsManager;
 import android.os.Build;
 import android.os.VibrationEffect;
@@ -38,6 +34,11 @@ public class PongView extends View {
     private InterstitialAd mInterstitialAd;
     private boolean startGameAnimationIsFinish = false;
 
+    private MediaPlayer startSound;
+    private boolean playstartSound = true;
+
+    private Drawable restartButton;
+
     private Drawable backGround;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -51,6 +52,7 @@ public class PongView extends View {
         backGround =context.getDrawable(R.drawable.my_gradient_drawable);
         backGround.setBounds(0, 0, (int)width, (int)(height*1.1));
         vibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+
         lettre1 = new Lettre(context.getDrawable(R.drawable.lettre1),(int)width/2,(int)height/2,500);
         lettre2 = new Lettre(context.getDrawable(R.drawable.lettre2),(int)width/2,(int)height/2,500);
         lettre3 = new Lettre(context.getDrawable(R.drawable.lettre3),(int)width/2,(int)height/2,500);
@@ -58,6 +60,16 @@ public class PongView extends View {
         mInterstitialAd = new InterstitialAd(context);
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+        restartButton = context.getDrawable(R.drawable.restart);
+        int buttonHeight = 200;
+        int buttonWidth = 500;
+
+        restartButton.setBounds((int)width/2-buttonWidth/2,(int)height/2-buttonHeight/2,(int)width/2+buttonWidth/2,(int)height/2+buttonHeight/2);
+
+        startSound = MediaPlayer.create(context,R.raw.start321);
+
+
 
     }
 
@@ -92,6 +104,12 @@ public class PongView extends View {
                     }
                 invalidate();
                 break;
+                case MotionEvent.ACTION_DOWN:
+                    if(gameIsFinished()) {
+                        resetGame();
+                    }
+                    invalidate();
+                break;
             }
         return true;
     }
@@ -102,27 +120,33 @@ public class PongView extends View {
 
         backGround.draw(canvas);
 
-        ball.draw(canvas);
+        if(!gameIsFinished()){
+            ball.draw(canvas);
+        }
         player1.draw(canvas);
         player2.draw(canvas);
-        startGameAnimation(canvas);
         drawAnimations(canvas);
 
         if(startGameAnimationIsFinish){
-            updateCoords();
+            if(gameIsFinished()){
+                restartButton.draw(canvas);
+            }else{
+                updateCoords();
+            }
+        }else{
+            startGameAnimation(canvas);
         }
+
         invalidate();
     }
 
 
     private void updateCoords(){
+        bumpOnPlayer();
         ballBump();
     }
 
     private void ballBump(){
-
-        bumpOnPlayer();
-
         if(ball.getX() >= width-ball.getSize()){
             ball.setDirectionX(-1);
             ball.addRebond();
@@ -222,7 +246,6 @@ public class PongView extends View {
     }
 
     private boolean gameIsFinished(){
-
         return player1.getLife() < 1 || player2.getLife() < 1;
     }
 
@@ -265,6 +288,10 @@ public class PongView extends View {
     }
 
     private void startGameAnimation(Canvas canvas){
+        if(playstartSound){
+            startSound.start();
+            playstartSound = false;
+        }
 
         lettre3.getAnimation().startAnimation(canvas);
         if(lettre3.getAnimation().getTime() >= lettre3.getAnimation().getTimeAnimation()){
@@ -277,9 +304,28 @@ public class PongView extends View {
             lettreGO.getAnimation().startAnimation(canvas);
         }
         if(lettreGO.getAnimation().getTime() >= lettreGO.getAnimation().getTimeAnimation()){
+            lettreGO.getAnimation().stopAnimation();
+            lettre1.getAnimation().stopAnimation();
+            lettre2.getAnimation().stopAnimation();
+            lettre3.getAnimation().stopAnimation();
             startGameAnimationIsFinish = true;
         }
 
+    }
+
+    private void resetGame(){
+        sendSMS = false;
+        startGameAnimationIsFinish = false;
+        playstartSound = true;
+
+        player1 = new PlayerBar(width/2,width/2,40,150,getContext(),1);
+        player2 = new PlayerBar(width/2,width/2,height-150,height-40,getContext(),2);
+
+        lettre1 = new Lettre(getContext().getDrawable(R.drawable.lettre1),(int)width/2,(int)height/2,500);
+        lettre2 = new Lettre(getContext().getDrawable(R.drawable.lettre2),(int)width/2,(int)height/2,500);
+        lettre3 = new Lettre(getContext().getDrawable(R.drawable.lettre3),(int)width/2,(int)height/2,500);
+
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
     }
 
 }

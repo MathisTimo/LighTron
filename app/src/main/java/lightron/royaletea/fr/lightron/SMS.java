@@ -16,28 +16,21 @@ public class SMS extends Activity
     EditText txtPhoneNo;
     EditText txtMessage;
 
-    /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-
-
-                String phoneNo = txtPhoneNo.getText().toString();
-                String message = txtMessage.getText().toString();
-                if (phoneNo.length()>0 && message.length()>0)
-                    sendSMS(phoneNo, message);
-                else
-                    Toast.makeText(getBaseContext(),
-                            "Please enter both phone number and message.",
-                            Toast.LENGTH_SHORT).show();
-
-
+            String phoneNo = txtPhoneNo.getText().toString();
+            String message = txtMessage.getText().toString();
+            if (phoneNo.length()>0 && message.length()>0)
+                sendSMS(phoneNo, message);
+            else
+                Toast.makeText(getBaseContext(),
+                        "Please enter both phone number and message.",
+                        Toast.LENGTH_SHORT).show();
     }
 
-    private void sendSMS(String phoneNumber, String message)
-    {
+    private void sendSMS(String phoneNumber, String message) {
         PendingIntent pi = PendingIntent.getActivity(this, 0,
                 new Intent(this, SMS.class), 0);
         SmsManager sms = SmsManager.getDefault();

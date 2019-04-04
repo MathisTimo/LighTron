@@ -19,9 +19,11 @@ public class LettreAnimation implements Animation {
 
     @Override
     public void startAnimation(Canvas canvas) {
-        myLettre.setSize(myLettre.getSize() - sizeRemove);
-        myLettre.draw(canvas);
-        sizeRemove+= 1;
+        if(myLettre.getSize() >0){
+            myLettre.setSize(myLettre.getSize() - sizeRemove);
+            myLettre.draw(canvas);
+            sizeRemove+= 2;
+        }
         time++;
     }
 

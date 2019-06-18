@@ -24,6 +24,7 @@ public class PlayerBar {
     private Drawable image4;
 
     private Animation animation;
+
     private boolean playAnimation = false;
 
     private int life = 4;

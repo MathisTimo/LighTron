@@ -13,7 +13,6 @@ import android.view.View;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
-
 public class PongView extends View {
 
     private  Ball ball;
@@ -36,6 +35,7 @@ public class PongView extends View {
     private MediaPlayer startSound;
     private boolean playstartSound = true;
     private MediaPlayer gameSound;
+    private MediaPlayer deadSound;
 
     private Drawable restartButton;
 
@@ -73,8 +73,8 @@ public class PongView extends View {
         gameSound.setLooping(true);
         gameSound.setVolume(0.2f,0.2f);
         gameSound.start();
-
-
+        deadSound = MediaPlayer.create(context,R.raw.dead);
+        deadSound.setVolume(0.8f,0.8f);
 
     }
 
@@ -219,6 +219,7 @@ public class PongView extends View {
 
     private void endGame() {
         if (gameIsFinished()) {
+            deadSound.start();
             if (mInterstitialAd.isLoaded()) {
                 mInterstitialAd.show();
             }
@@ -310,7 +311,6 @@ public class PongView extends View {
     }
 
     private void resetGame(){
-        sendSMS = false;
         startGameAnimationIsFinish = false;
         playstartSound = true;
 
